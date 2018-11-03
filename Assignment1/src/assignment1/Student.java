@@ -7,7 +7,7 @@ import java.time.Period;
 
 /**
  *
- * @author Jeel Patel
+ * @author Jeel Hitesh Patel
  */
 public class Student {
     
