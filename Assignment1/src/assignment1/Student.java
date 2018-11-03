@@ -91,16 +91,15 @@ public class Student {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public LocalDate getDateEnrolled() {
         return dateEnrolled;
     }
 
     public void setDateEnrolled(LocalDate dateEnrolled) {
-        this.dateEnrolled = dateEnrolled;
+        if(LocalDate.now().isAfter(dateEnrolled))
+            this.dateEnrolled = dateEnrolled;
+        else 
+            throw new IllegalArgumentException("Date of enrolled must be less than today!");
     }
 
     public int getStudentNum() {
@@ -108,7 +107,10 @@ public class Student {
     }
 
     public void setStudentNum(int studentNum) {
-        this.studentNum = studentNum;
+        if(studentNum > 0 )
+            this.studentNum = studentNum;
+        else 
+            throw new IllegalArgumentException("Student number must be grater than zero!");               
     }
     
     public int getYearBorn()
@@ -121,11 +123,6 @@ public class Student {
         return dateEnrolled.getYear();
     }
     
-    public boolean isInGoodStanding()
-    {
-        return goodStanding;
-    }
-    
     public void suspendStudent() 
     {
         goodStanding = false;
@@ -135,17 +132,29 @@ public class Student {
     {
         goodStanding = true;
     }
-    
-    public Period getAge()
+        
+    public boolean isInGoodStanding()
     {
-        Period age = Period.between(dateEnrolled, dateOfBirth);
+        return goodStanding;
+    }
+    
+    public int getAge()
+    {
+        int age = Period.between(dateOfBirth, dateEnrolled).getYears();
         return age;
+    }
+    
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        //if(getAge() < 100 )
+            this.dateOfBirth = dateOfBirth;
+        //else
+            //throw new IllegalArgumentException("Date of birth must be less than 100 and grater than 0 !");
     }
     
     @Override 
     public String toString()
     {
-        return String.format("Name of Student - %s, %s and Student ID - %d", firstName, lastName, studentNum);
+        return String.format("%s %s, student number: %d", firstName, lastName, studentNum);
     }
 }
 
